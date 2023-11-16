@@ -44,3 +44,15 @@ body {
 .pixelart {
     image-rendering: pixelated;
 }
+
+.character[facing="right"] .sprite-sheet {
+    background-position-y: calc(var(--pixel-size) * -32 );
+}
+
+.character[facing="up"] .sprite-sheet {
+    background-position-y: calc(var(--pixel-size) * -64 );
+}
+
+.character[facing="left"] .sprite-sheet {
+    background-position-y: calc( var(--pixel-size) * -96 );
+}

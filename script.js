@@ -50,6 +50,8 @@ function placeCharacter() {
 
         // Direct sprite
         character.setAttribute("facing", heldDirection);
+        console.log(heldDirection);
+        console.log("facing", document.querySelector(".character").getAttribute("facing"))
         // Is walking
         character.setAttribute("walking", "true");
     } else {
