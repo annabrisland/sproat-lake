@@ -1,0 +1,46 @@
+:root {
+    --pixel-size: 4px;
+    --grid-cell-size: 64px;
+}
+
+body {
+    background-color: rgb(73, 92, 52);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.camera {
+    width: calc(var(--pixel-size) * 160);
+    height: calc(var(--pixel-size) * 144);
+    background-color: black;
+    position: relative;
+    overflow: hidden;
+}
+
+.map {
+    background-image: url("../images/maps/testmap.png");
+    width: calc(12 * var(--grid-cell-size));
+    height: calc(12 * var(--grid-cell-size));
+    position: relative;
+    background-size: 100%;
+}
+
+.character {
+    position: absolute;
+    width: calc(2 * var(--grid-cell-size));
+    height: calc(2 * var(--grid-cell-size));
+    overflow: hidden;
+}
+
+.sprite-sheet {
+    background-image: url("../images/sprites/sprite.png");
+    position: absolute;
+    background-size: 100%;
+    width: calc(8 * var(--grid-cell-size));
+    height: calc(8 * var(--grid-cell-size)); 
+}
+
+.pixelart {
+    image-rendering: pixelated;
+}
