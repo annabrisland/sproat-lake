@@ -56,3 +56,16 @@ body {
 .character[facing="left"] .sprite-sheet {
     background-position-y: calc( var(--pixel-size) * -96 );
 }
+
+.character[walking="true"] .sprite-sheet {
+    animation: moveSpritesheet 0.7s steps(4) infinite;
+}
+
+@keyframes moveSpritesheet {
+    from {
+       transform: translate3d(0px,0,0)
+    }
+    to {
+       transform: translate3d(-100%,0,0)
+    }
+ }
