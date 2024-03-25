@@ -25,9 +25,15 @@ window.OverworldMaps = {
         lowerSrc: "assets/images/maps/testmap.png",
         upperSrc: "assets/images/maps/testmapUpper.png",
         gameObjects: {
-        hero: new GameObject({
+        hero: new Person({
+            isPlayerControlled: true,
             x: utils.withGrid(5),
             y: utils.withGrid(6),
+        }),
+        npc: new Person({
+            x: utils.withGrid(8),
+            y: utils.withGrid(5),
+            src: "assets/images/sprites/sprite2.png",
         })
         }
     },
