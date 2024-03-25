@@ -31,8 +31,8 @@ window.OverworldMaps = {
             y: utils.withGrid(6),
         }),
         npc: new Person({
-            x: utils.withGrid(8),
-            y: utils.withGrid(5),
+            x: utils.withGrid(4),
+            y: utils.withGrid(8),
             src: "assets/images/sprites/sprite2.png",
         })
         }

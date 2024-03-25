@@ -19,13 +19,56 @@ class Sprite {
 
     // Config for animation & initial state
     this.animations = config.animations || {
-      idleDown: [0, 0],
+      "idle-down": [[0, 0]],
+      "idle-right": [[0, 1]],
+      "idle-up": [[0, 2]],
+      "idle-left": [[0, 3]],
+      "walk-down": [[0, 0], [1, 0], [2, 0], [3, 0]],
+      "walk-right": [[0, 1], [1, 1], [2, 1], [3, 1]],
+      "walk-up": [[0, 2], [1, 2], [2, 2], [3, 2]],
+      "walk-left": [[0, 3], [1, 3], [2, 3], [3, 3]],
     };
-    this.currentAnimation = config.currentAnimation || "idleDown";
+    this.currentAnimation = config.currentAnimation || "idle-down";
     this.currentAnimationFrame = 0;
+
+    this.animationFrameLimit = config.animationFrameLimit || 8;
+    this.animationFrameProgress = this.animationFrameLimit;
 
     // Config for game object
     this.gameObject = config.gameObject || null;
+  }
+
+  // Get animation frame
+  get frame() {
+    return this.animations[this.currentAnimation][this.currentAnimationFrame];
+  }
+
+  // Set animation
+  setAnimation(key) {
+    if(this.currentAnimation !== key) {
+      this.currentAnimation = key;
+      this.currentAnimationFrame = 0;
+      this.animationFrameProgress = this.animationFrameLimit;
+    }
+  }
+
+  // Update the sprite animation
+  updateAnimationProgress() {
+    // Check fram progress
+    if (this.animationFrameProgress > 0) {
+      this.animationFrameProgress -= 1;
+      return;
+    }
+
+    // Reset frame progress
+    this.animationFrameProgress = this.animationFrameLimit;
+
+    // Update to increase frame
+    this.currentAnimationFrame += 1;
+
+    if(this.frame === undefined){
+      this.currentAnimationFrame = 0;
+    }
   }
 
   // Draw the sprite
@@ -37,10 +80,12 @@ class Sprite {
       this.shadow, x, y
     );
 
+    const [frameX, frameY] = this.frame;
+
     this.isLoaded && ctx.drawImage(
       this.image,
-      0, // left crop
-      0, // top crop
+      frameX * 32, // left crop
+      frameY * 32, // top crop
       32, // width crop
       32, // height crop
       x, // left position
@@ -48,5 +93,9 @@ class Sprite {
       32, // width size
       32 // height size
     );
+    
+      this.updateAnimationProgress();
+
   }
+
 }
