@@ -18,7 +18,8 @@ class Overworld {
             // Update game objects
             Object.values(this.map.gameObjects).forEach(gameObject => {
                 gameObject.update({
-                    arrow: this.directionInput.direction
+                    arrow: this.directionInput.direction,
+                    map: this.map,
                 });
             });
             
@@ -43,6 +44,8 @@ class Overworld {
         this.map = new OverworldMap(
             window.OverworldMaps.DemoMap
         );
+        // Mount game objects for collision detection
+        this.map.mountGameObjects();
 
         // Listen for keydown events
         this.directionInput = new DirectionInput();

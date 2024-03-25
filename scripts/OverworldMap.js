@@ -1,6 +1,7 @@
 class OverworldMap {
     constructor(config) {
         this.gameObjects = config.gameObjects || [];
+        this.walls = config.walls || {};
 
         // Lower & upper map parts config
         this.lowerImage = new Image();
@@ -26,6 +27,31 @@ class OverworldMap {
             utils.withGrid(6) - camera.y
             );
     }
+
+    isSpaceTaken(currentX, currentY, direction) {
+        const {x,y} = utils.nextPosition(currentX, currentY, direction);
+        return this.walls[`${x},${y}`] || false;
+    }
+
+    mountGameObjects() {
+        Object.values(this.gameObjects).forEach(gameObject => {
+            gameObject.mount(this);
+        });
+    }
+
+    addWall(x, y) {
+        this.walls[`${x},${y}`] = true;
+    }
+
+    removeWall(x, y) {
+        delete this.walls[`${x},${y}`];
+    }
+
+    moveWall(pastX, pastY, direction) {
+        this.removeWall(pastX, pastY);
+        const {x,y} = utils.nextPosition(pastX, pastY, direction);
+        this.addWall(x, y);
+    }
 }
 
 window.OverworldMaps = {
@@ -43,6 +69,10 @@ window.OverworldMaps = {
             y: utils.withGrid(8),
             src: "assets/images/sprites/sprite2.png",
         })
+        },
+        walls: {
+            [utils.asGridCoord(7,8)] : true,
+            [utils.asGridCoord(8,8)] : true,
         }
     },
 }
