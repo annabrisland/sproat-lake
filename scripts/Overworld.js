@@ -41,13 +41,28 @@ class Overworld {
         step()
     }
 
-    init() {
+    bindHeroPositionCheck() {
+        document.addEventListener("PersonWalkingComplete", (e) => {
+            if(e.detail.whoId === "hero") {
+                this.map.checkCutSceneSpace();
+            }
+        });
+    }
 
-        this.map = new OverworldMap(
-            window.OverworldMaps.Park
-        );
+    startMap(mapConfig) {
+        this.map = new OverworldMap(mapConfig);
+        this.map.overworld = this;
         // Mount game objects for collision detection
         this.map.mountGameObjects();
+    }
+
+    init() {
+        
+        // Start map
+        this.startMap(window.OverworldMaps.Park);
+
+        // Bind hero position
+        this.bindHeroPositionCheck();
 
         // Listen for keydown events
         this.directionInput = new DirectionInput();
@@ -61,7 +76,12 @@ class Overworld {
         this.map.startCutScene([
             {who: "hero", type: "walk", direction: "down"},
             {who: "hero", type: "walk", direction: "down"},
-            {who: "npc", type: "stand", direction: "right", duration: 1000},
+            {who: "npc", type: "walk", direction: "right"},
+            {who: "npc", type: "walk", direction: "right"},
+            {who: "npc", type: "walk", direction: "right"},
+            {who: "hero", type: "stand", direction: "left", duration: 500},
+            {type: "textMessage", text: "Welcome to Sproat lake"}
+
         ]);
 
     }

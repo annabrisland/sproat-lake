@@ -46,6 +46,22 @@ class OverworldEvent {
         document.addEventListener("PersonWalkingComplete", completeHandler);
     }
 
+    textMessage(resolve) {
+        const message = new TextMessage({
+            text: this.event.text,
+            onComplete: () => {
+                resolve();
+            }
+        });
+
+        message.init(document.body);
+    }
+
+    changeMap(resolve) {
+        this.map.overworld.startMap(window.OverworldMaps[this.event.map]);
+        resolve();
+    }
+
     init() {
         return new Promise(resolve => {
             this[this.event.type](resolve);

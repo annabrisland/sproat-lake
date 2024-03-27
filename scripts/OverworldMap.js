@@ -1,7 +1,9 @@
 class OverworldMap {
     constructor(config) {
+        this.overworld = null
         this.gameObjects = config.gameObjects || [];
         this.walls = config.walls || {};
+        this.cutSceneSpaces = config.cutSceneSpaces || {};
 
         // Lower & upper map parts config
         this.lowerImage = new Image();
@@ -56,6 +58,19 @@ class OverworldMap {
         }
 
         this.isCutscenePlaying = false;
+
+        // Start NPC behaviour loop
+        Object.values(this.gameObjects).forEach(gameObject => {
+            gameObject.doBehaviourEvent(this);
+        });
+    }
+
+    checkCutSceneSpace() {
+        const hero = this.gameObjects.hero;
+        const match = this.cutSceneSpaces[`${hero.x},${hero.y}`];
+        if(!this.isCutscenePlaying && match) {
+            this.startCutScene(match.events);
+        }
     }
 
     addWall(x, y) {
@@ -74,26 +89,6 @@ class OverworldMap {
 }
 
 window.OverworldMaps = {
-    DemoMap: {
-        lowerSrc: "assets/images/maps/testmap.png",
-        upperSrc: "assets/images/maps/testmapUpper.png",
-        gameObjects: {
-        hero: new Person({
-            isPlayerControlled: true,
-            x: utils.withGrid(5),
-            y: utils.withGrid(6),
-        }),
-        npc: new Person({
-            x: utils.withGrid(4),
-            y: utils.withGrid(8),
-            src: "assets/images/sprites/sprite2.png",
-        })
-        },
-        walls: {
-            [utils.asGridCoord(7,8)] : true,
-            [utils.asGridCoord(8,8)] : true,
-        }
-    },
     Park: {
         lowerSrc: "assets/images/maps/park.png",
         upperSrc: "",
@@ -101,19 +96,22 @@ window.OverworldMaps = {
         hero: new Person({
             isPlayerControlled: true,
             x: utils.withGrid(9),
-            y: utils.withGrid(3),
+            y: utils.withGrid(2),
         }),
         npc: new Person({
-            x: utils.withGrid(4),
-            y: utils.withGrid(5),
+            x: utils.withGrid(5),
+            y: utils.withGrid(4),
             src: "assets/images/sprites/sprite2.png",
             behaviourLoop: [
-                {type: "walk", direction: "right"},
-                {type: "walk", direction: "down"},
-                {type: "stand", direction: "down", duration: 1000},
                 {type: "walk", direction: "left"},
+                {type: "walk", direction: "left"},
+                {type: "stand", direction: "down", duration: 1500},
+                {type: "walk", direction: "down"},
+                {type: "stand", direction: "down", duration: 1500},
+                {type: "walk", direction: "right"},
+                {type: "walk", direction: "right"},
                 {type: "walk", direction: "up"},
-                {type: "stand", direction: "up", duration: 800},
+                {type: "stand", direction: "up", duration: 1300},
             ]
         }),
         tree1: new GameObject({
@@ -127,15 +125,57 @@ window.OverworldMaps = {
             src: "assets/images/sprites/tree.png",
         }),
         tree3: new GameObject({
-            x: utils.withGrid(7),
+            x: utils.withGrid(12),
             y: utils.withGrid(5),
             src: "assets/images/sprites/tree.png",
         })
         },
-        // walls: {
-        //     [utils.asGridCoord(7,8)] : true,
-        //     [utils.asGridCoord(8,8)] : true,
-        // }
+        cutSceneSpaces: {
+            [utils.asGridCoord(16,5)] : {
+                events: [
+                    {type: "changeMap", map: "Maze"}
+                ],
+            },
+        },
+        walls: {
+            [utils.asGridCoord(3,2)] : true,
+            [utils.asGridCoord(4,2)] : true,
+            [utils.asGridCoord(5,2)] : true,
+            [utils.asGridCoord(6,2)] : true,
+            [utils.asGridCoord(15,2)] : true,
+            [utils.asGridCoord(7,1)] : true,
+            [utils.asGridCoord(8,1)] : true,
+            [utils.asGridCoord(9,1)] : true,
+            [utils.asGridCoord(10,1)] : true,
+            [utils.asGridCoord(11,1)] : true,
+            [utils.asGridCoord(12,1)] : true,
+            [utils.asGridCoord(13,1)] : true,
+            [utils.asGridCoord(14,1)] : true,
+            [utils.asGridCoord(2,3)] : true,
+            [utils.asGridCoord(16,3)] : true,
+            [utils.asGridCoord(2,4)] : true,
+            [utils.asGridCoord(16,4)] : true,
+            [utils.asGridCoord(2,5)] : true,
+            [utils.asGridCoord(17,5)] : true,
+            [utils.asGridCoord(2,6)] : true,
+            [utils.asGridCoord(16,6)] : true,
+            [utils.asGridCoord(2,7)] : true,
+            [utils.asGridCoord(16,7)] : true,
+            [utils.asGridCoord(3,7)] : true,
+            [utils.asGridCoord(4,7)] : true,
+            [utils.asGridCoord(5,7)] : true,
+            [utils.asGridCoord(6,7)] : true,
+            [utils.asGridCoord(7,7)] : true,
+            [utils.asGridCoord(8,7)] : true,
+            [utils.asGridCoord(9,7)] : true,
+            [utils.asGridCoord(10,7)] : true,
+            [utils.asGridCoord(11,7)] : true,
+            [utils.asGridCoord(12,7)] : true,
+            [utils.asGridCoord(13,7)] : true,
+            [utils.asGridCoord(14,7)] : true,
+            [utils.asGridCoord(15,7)] : true,
+
+        }
     },
     Maze: {
         lowerSrc: "assets/images/maps/maze.png",
@@ -143,13 +183,13 @@ window.OverworldMaps = {
         gameObjects: {
         hero: new Person({
             isPlayerControlled: true,
-            x: utils.withGrid(11),
-            y: utils.withGrid(22),
+            x: utils.withGrid(0),
+            y: utils.withGrid(21),
         }),
         },
-        // walls: {
-        //     [utils.asGridCoord(7,8)] : true,
-        //     [utils.asGridCoord(8,8)] : true,
-        // }
+        walls: {
+            [utils.asGridCoord(-1,21)] : true,
+            [utils.asGridCoord(8,8)] : true,
+        }
     },
 }
