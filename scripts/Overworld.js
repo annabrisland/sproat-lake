@@ -26,8 +26,10 @@ class Overworld {
             // Draw lower map
             this.map.drawLowerImage(this.ctx, camera);
 
-            // Draw game objects
-            Object.values(this.map.gameObjects).forEach(gameObject => {
+            // Draw game objects in order of y position
+            Object.values(this.map.gameObjects).sort((a,b) => {
+                return a.y - b.y;
+            }).forEach(gameObject => {
                 gameObject.sprite.draw(this.ctx, camera);
             });
 
@@ -42,7 +44,7 @@ class Overworld {
     init() {
 
         this.map = new OverworldMap(
-            window.OverworldMaps.DemoMap
+            window.OverworldMaps.Park
         );
         // Mount game objects for collision detection
         this.map.mountGameObjects();
@@ -54,6 +56,13 @@ class Overworld {
 
         // Start game loop
         this.startGameLoop();
+
+        // Start cutscene
+        this.map.startCutScene([
+            {who: "hero", type: "walk", direction: "down"},
+            {who: "hero", type: "walk", direction: "down"},
+            {who: "npc", type: "stand", direction: "right", duration: 1000},
+        ]);
 
     }
 }
