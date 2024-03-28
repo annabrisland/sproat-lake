@@ -59,7 +59,7 @@ class Overworld {
     init() {
         
         // Start map
-        this.startMap(window.OverworldMaps.ParkEnd);
+        this.startMap(window.OverworldMaps.Park);
 
         // Bind hero position
         this.bindHeroPositionCheck();
