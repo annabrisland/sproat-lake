@@ -72,17 +72,17 @@ class Overworld {
         // Start game loop
         this.startGameLoop();
 
-        // // Start cutscene
-        // this.map.startCutScene([
-        //     {who: "hero", type: "walk", direction: "down"},
-        //     {who: "hero", type: "walk", direction: "down"},
-        //     {who: "npc", type: "walk", direction: "right"},
-        //     {who: "npc", type: "walk", direction: "right"},
-        //     {who: "npc", type: "walk", direction: "right"},
-        //     {who: "hero", type: "stand", direction: "left", duration: 500},
-        //     {type: "textMessage", text: "Welcome to Sproat lake"},
-        //     {type: "textMessage", text: "Be careful out there!"},
-        // ]);
+        // Start cutscene
+        this.map.startCutScene([
+            {who: "hero", type: "walk", direction: "down"},
+            {who: "hero", type: "walk", direction: "down"},
+            {who: "npc", type: "walk", direction: "right"},
+            {who: "npc", type: "walk", direction: "right"},
+            {who: "npc", type: "walk", direction: "right"},
+            {who: "hero", type: "stand", direction: "left", duration: 500},
+            {type: "textMessage", text: "Welcome to Sproat lake"},
+            {type: "textMessage", text: "Be careful out there!"},
+        ]);
 
     }
 }
