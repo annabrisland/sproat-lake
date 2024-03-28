@@ -88,6 +88,16 @@ class OverworldMap {
     }
 }
 
+const mazeWalls = [[-1,21], [1,1],[2,1],[3,1],[4,1],[5,1],[6,1],[7,1],[8,1],[9,1],[10,1],[11,1],[12,1],[13,1],[14,1],[15,1],[16,1],[17,1],[18,1],[19,1],[20,1],[21,1],[0,2],[0,3],[0,4],[0,5],[0,6],[0,7],[0,8],[0,9],[0,10],[0,11],[0,12],[0,13],[0,14],[0,15],[0,16],[0,17],[0,18],[0,19],[0,20],[0,22],[22,2],[22,3],[22,4],[22,5],[22,6],[22,7],[23,8],[22,9],[22,10],[22,11],[22,12],[22,13],[22,14],[22,15],[22,16],[22,17],[22,18],[22,19],[22,20],[22,21],[22,22],[1,23],[2,23],[3,23],[4,23],[5,23],[6,23],[7,23],[8,23],[9,23],[10,23],[11,23],[12,23],[13,23],[14,23],[15,23],[16,23],[17,23],[18,23],[19,23],[20,23],[21,23]];
+
+const walls = {};
+
+// Iterate over the array and set values in walls object
+mazeWalls.forEach(coord => {
+    const [x, y] = coord;
+    walls[utils.asGridCoord(x, y)] = true;
+});
+
 window.OverworldMaps = {
     Park: {
         lowerSrc: "assets/images/maps/park.png",
@@ -179,7 +189,7 @@ window.OverworldMaps = {
     },
     Maze: {
         lowerSrc: "assets/images/maps/maze.png",
-        upperSrc: "",
+        upperSrc: "assets/images/maps/mazeUpper.png",
         gameObjects: {
         hero: new Person({
             isPlayerControlled: true,
@@ -187,9 +197,13 @@ window.OverworldMaps = {
             y: utils.withGrid(21),
         }),
         },
-        walls: {
-            [utils.asGridCoord(-1,21)] : true,
-            [utils.asGridCoord(8,8)] : true,
-        }
+        cutSceneSpaces: {
+            [utils.asGridCoord(22,8)] : {
+                events: [
+                    {type: "changeMap", map: "Park"}
+                ],
+            },
+        },
+        walls: walls
     },
 }

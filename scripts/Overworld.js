@@ -80,8 +80,8 @@ class Overworld {
             {who: "npc", type: "walk", direction: "right"},
             {who: "npc", type: "walk", direction: "right"},
             {who: "hero", type: "stand", direction: "left", duration: 500},
-            {type: "textMessage", text: "Welcome to Sproat lake"}
-
+            {type: "textMessage", text: "Welcome to Sproat lake"},
+            {type: "textMessage", text: "Be careful out there!"},
         ]);
 
     }
